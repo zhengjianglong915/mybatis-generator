@@ -21,6 +21,8 @@ mybatis-generator-maven-plugin/target
 
 /.project
 .idea
+target
+target/*
 *.iml
 /core/.mvn/wrapper/maven-wrapper.jar
 **/.DS_Store
