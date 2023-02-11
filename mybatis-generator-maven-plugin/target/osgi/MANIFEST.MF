@@ -1,0 +1,38 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.mybatis.generator.maven.plugin
+Build-Jdk-Spec: 17
+Bundle-Description: Maven plugin for MyBatis Generator.
+Bundle-DocURL: https://www.mybatis.org/mybatis-generator/mybatis-generat
+ or-maven-plugin/
+Bundle-License: https://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: MyBatis Generator Maven Plugin
+Bundle-SymbolicName: org.mybatis.generator.mybatis-generator-maven-plugi
+ n
+Bundle-Vendor: MyBatis.org
+Bundle-Version: 1.4.2.CW
+Copyright: 2022
+Created-By: Apache Maven Bundle Plugin 5.1.8
+Export-Package: org.mybatis.generator.maven;version="1.4.2.CW",org.mybat
+ is.generator.mybatis_generator_maven_plugin;version="1.4.2.CW"
+Git-Revision: 3ce9b278f861fcb5568e7fb6cfd584f9471deefe
+Implementation-Title: MyBatis Generator Maven Plugin
+Implementation-Vendor: MyBatis.org
+Implementation-Version: 1.4.2-CW
+Import-Package: javax.xml.parsers,org.apache.maven.artifact,org.apache.m
+ aven.model,org.apache.maven.plugin,org.apache.maven.plugin.logging,org.
+ apache.maven.project,org.mybatis.generator.api,org.mybatis.generator.co
+ nfig,org.mybatis.generator.config.xml,org.mybatis.generator.exception,o
+ rg.mybatis.generator.internal,org.mybatis.generator.internal.util,org.m
+ ybatis.generator.internal.util.messages,org.w3c.dom,org.xml.sax
+Include-Resource: {META-INF/m2e/lifecycle-mapping-metadata.xml=src/main/
+ resources/META-INF/m2e/lifecycle-mapping-metadata.xml},META-INF/LICENSE
+ =LICENSE,META-INF/NOTICE=NOTICE
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Specification-Title: MyBatis Generator Maven Plugin
+Specification-Vendor: MyBatis.org
+Specification-Version: 1.4
+Tool: Bnd-6.4.0.202211291949
+X-Compile-Release-JDK: 8
+X-Compile-Source-JDK: 8
+X-Compile-Target-JDK: 8

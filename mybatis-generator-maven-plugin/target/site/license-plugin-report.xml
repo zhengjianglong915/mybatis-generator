@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1676129493095">
+    <module artifactId="mybatis-generator-maven-plugin" groupId="org.mybatis.generator" version="1.4.2-CW"/>
+    <files>
+        <file path="pom.xml" result="NOOP"/>
+        <file path="src/main/java/org/mybatis/generator/maven/MavenProgressCallback.java" result="NOOP"/>
+        <file path="src/main/java/org/mybatis/generator/maven/MavenShellCallback.java" result="NOOP"/>
+        <file path="src/main/java/org/mybatis/generator/maven/MyBatisGeneratorMojo.java" result="NOOP"/>
+        <file path="src/main/java/org/mybatis/generator/maven/SqlScriptRunner.java" result="NOOP"/>
+        <file path="src/main/resources/META-INF/m2e/lifecycle-mapping-metadata.xml" result="NOOP"/>
+        <file path="src/site/site.xml" result="NOOP"/>
+    </files>
+</licensePluginReport>
