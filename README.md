@@ -17,4 +17,9 @@ This library will generate code for use with MyBatis. It will introspect a datab
 MBG can generate code in multiple styles (or "runtimes"). MBG can generate code for Java based projects, or for Kotlin based projects.
 
 ## 代码介绍
-代码从 Mybatis-generator 仓库的 1.4.2 版本fork 出来，并对代码做了改造，适配自己的使用。 避免自动生成代码的性能问题
+代码从 Mybatis-generator 仓库的 1.4.2 版本fork 出来，并对代码做了改造，适配自己的使用。 避免自动生成代码的性能问题.
+
+优化并提供一下能力:
+1. xml sql 格式化。 不同 element 支持换行；去除条件里的 jdbcType.
+2. 保留根据主键的操作
+3. Mapper 中的参数名字优化

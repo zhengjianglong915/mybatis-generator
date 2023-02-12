@@ -23,13 +23,7 @@ import static org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities
 import static org.mybatis.generator.internal.util.StringUtility.escapeStringForJava;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -48,8 +42,22 @@ public abstract class AbstractJavaMapperMethodGenerator extends AbstractGenerato
         super();
     }
 
+    /**
+     *  参数名字和类型名字保持一致
+     * @param parameterType
+     * @return
+     */
+    protected String getParamName(FullyQualifiedJavaType parameterType) {
+        String paramTypeName = parameterType.getShortName();
+        String paramName = paramTypeName.toLowerCase(Locale.ROOT);
+        if (paramTypeName.length() >= 2) {
+            paramName = paramTypeName.substring(0, 1).toLowerCase(Locale.ROOT) + paramTypeName.substring(1);
+        }
+        return paramName;
+    }
+
     protected static String getResultAnnotation(Interface interfaze, IntrospectedColumn introspectedColumn,
-            boolean idColumn, boolean constructorBased) {
+                                                boolean idColumn, boolean constructorBased) {
         StringBuilder sb = new StringBuilder();
         if (constructorBased) {
             interfaze.addImportedType(introspectedColumn.getFullyQualifiedJavaType());
@@ -236,22 +244,20 @@ public abstract class AbstractJavaMapperMethodGenerator extends AbstractGenerato
             // parameters for MyBatis3
             List<IntrospectedColumn> introspectedColumns = introspectedTable
                     .getPrimaryKeyColumns();
-            boolean annotate = introspectedColumns.size() > 1;
-            if (annotate) {
-                importedTypes.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
-            }
+            importedTypes.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
+
             StringBuilder sb = new StringBuilder();
             for (IntrospectedColumn introspectedColumn : introspectedColumns) {
                 FullyQualifiedJavaType type = introspectedColumn.getFullyQualifiedJavaType();
                 importedTypes.add(type);
                 Parameter parameter = new Parameter(type, introspectedColumn.getJavaProperty());
-                if (annotate) {
-                    sb.setLength(0);
-                    sb.append("@Param(\""); //$NON-NLS-1$
-                    sb.append(introspectedColumn.getJavaProperty());
-                    sb.append("\")"); //$NON-NLS-1$
-                    parameter.addAnnotation(sb.toString());
-                }
+
+                // 默认都添加 Param 注解，保持一致
+                sb.setLength(0);
+                sb.append("@Param(\""); //$NON-NLS-1$
+                sb.append(introspectedColumn.getJavaProperty());
+                sb.append("\")"); //$NON-NLS-1$
+                parameter.addAnnotation(sb.toString());
                 method.addParameter(parameter);
             }
         }
@@ -313,7 +319,7 @@ public abstract class AbstractJavaMapperMethodGenerator extends AbstractGenerato
         importedTypes.add(parameterType);
 
         FullyQualifiedJavaType exampleType = new FullyQualifiedJavaType(introspectedTable.getExampleType());
-        method.addParameter(new Parameter(exampleType,"example", "@Param(\"example\")")); //$NON-NLS-1$ //$NON-NLS-2$
+        method.addParameter(new Parameter(exampleType, "example", "@Param(\"example\")")); //$NON-NLS-1$ //$NON-NLS-2$
         importedTypes.add(exampleType);
 
         importedTypes.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
@@ -328,7 +334,8 @@ public abstract class AbstractJavaMapperMethodGenerator extends AbstractGenerato
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setAbstract(true);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addParameter(new Parameter(parameterType, "row")); //$NON-NLS-1$
+        String paramName = getParamName(parameterType);
+        method.addParameter(new Parameter(parameterType, paramName)); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
         return method;

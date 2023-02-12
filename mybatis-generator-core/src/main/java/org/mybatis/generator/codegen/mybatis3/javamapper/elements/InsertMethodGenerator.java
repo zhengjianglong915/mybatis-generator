@@ -48,9 +48,10 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
             parameterType = introspectedTable.getRules().calculateAllFieldsClass();
         }
 
+        String paramName = getParamName(parameterType);
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
         importedTypes.add(parameterType);
-        method.addParameter(new Parameter(parameterType, "row")); //$NON-NLS-1$
+        method.addParameter(new Parameter(parameterType, paramName)); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
