@@ -79,6 +79,7 @@ public class TableConfiguration extends PropertyHolder {
     private boolean isAllColumnDelimitingEnabled;
 
     private String mapperName;
+    private String queryColumns;
     private String sqlProviderName;
 
     private final List<IgnoredColumnPattern> ignoredColumnPatterns = new ArrayList<>();
@@ -471,5 +472,13 @@ public class TableConfiguration extends PropertyHolder {
 
     public String getDynamicSqlTableObjectName() {
         return getProperty(PropertyRegistry.TABLE_DYNAMIC_SQL_TABLE_OBJECT_NAME);
+    }
+
+    public String getQueryColumns() {
+        return queryColumns;
+    }
+
+    public void setQueryColumns(String queryColumns) {
+        this.queryColumns = queryColumns;
     }
 }

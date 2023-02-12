@@ -26,17 +26,11 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.tools.ant.util.StringUtils;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -66,8 +60,8 @@ public class DatabaseIntrospector {
     private final Log logger;
 
     public DatabaseIntrospector(Context context,
-            DatabaseMetaData databaseMetaData,
-            JavaTypeResolver javaTypeResolver, List<String> warnings) {
+                                DatabaseMetaData databaseMetaData,
+                                JavaTypeResolver javaTypeResolver, List<String> warnings) {
         super();
         this.context = context;
         this.databaseMetaData = databaseMetaData;
@@ -77,7 +71,7 @@ public class DatabaseIntrospector {
     }
 
     private void calculatePrimaryKey(FullyQualifiedTable table,
-            IntrospectedTable introspectedTable) {
+                                     IntrospectedTable introspectedTable) {
         ResultSet rs;
 
         try {
@@ -162,11 +156,9 @@ public class DatabaseIntrospector {
     /**
      * Returns a List of IntrospectedTable elements that matches the specified table configuration.
      *
-     * @param tc
-     *            the table configuration
+     * @param tc the table configuration
      * @return a list of introspected tables
-     * @throws SQLException
-     *             if any errors in introspection
+     * @throws SQLException if any errors in introspection
      */
     public List<IntrospectedTable> introspectTables(TableConfiguration tc)
             throws SQLException {
@@ -199,7 +191,7 @@ public class DatabaseIntrospector {
                 // add warning that the table has no columns, remove from the
                 // list
                 String warning = getString(
-                                "Warning.1", introspectedTable.getFullyQualifiedTable().toString()); //$NON-NLS-1$
+                        "Warning.1", introspectedTable.getFullyQualifiedTable().toString()); //$NON-NLS-1$
                 warnings.add(warning);
                 iter.remove();
             } else if (!introspectedTable.hasPrimaryKeyColumns()
@@ -207,7 +199,7 @@ public class DatabaseIntrospector {
                 // add warning that the table has only BLOB columns, remove from
                 // the list
                 String warning = getString(
-                                "Warning.18", introspectedTable.getFullyQualifiedTable().toString()); //$NON-NLS-1$
+                        "Warning.18", introspectedTable.getFullyQualifiedTable().toString()); //$NON-NLS-1$
                 warnings.add(warning);
                 iter.remove();
             } else {
@@ -223,7 +215,7 @@ public class DatabaseIntrospector {
     }
 
     private void removeIgnoredColumns(TableConfiguration tc,
-            Map<ActualTableName, List<IntrospectedColumn>> columns) {
+                                      Map<ActualTableName, List<IntrospectedColumn>> columns) {
         for (Map.Entry<ActualTableName, List<IntrospectedColumn>> entry : columns
                 .entrySet()) {
             Iterator<IntrospectedColumn> tableColumns = entry.getValue()
@@ -245,7 +237,7 @@ public class DatabaseIntrospector {
     }
 
     private void calculateExtraColumnInformation(TableConfiguration tc,
-            Map<ActualTableName, List<IntrospectedColumn>> columns) {
+                                                 Map<ActualTableName, List<IntrospectedColumn>> columns) {
         StringBuilder sb = new StringBuilder();
         Pattern pattern = null;
         String replaceString = null;
@@ -274,7 +266,7 @@ public class DatabaseIntrospector {
                     introspectedColumn.setJavaProperty(
                             JavaBeansUtil.getValidPropertyName(calculatedColumnName));
                 } else if (isTrue(tc
-                                .getProperty(PropertyRegistry.TABLE_USE_COMPOUND_PROPERTY_NAMES))) {
+                        .getProperty(PropertyRegistry.TABLE_USE_COMPOUND_PROPERTY_NAMES))) {
                     sb.setLength(0);
                     sb.append(calculatedColumnName);
                     sb.append('_');
@@ -324,7 +316,7 @@ public class DatabaseIntrospector {
 
                 if (context.autoDelimitKeywords()
                         && SqlReservedWords.containsWord(introspectedColumn
-                            .getActualColumnName())) {
+                        .getActualColumnName())) {
                     introspectedColumn.setColumnNameDelimited(true);
                 }
 
@@ -363,7 +355,7 @@ public class DatabaseIntrospector {
     }
 
     private void applyColumnOverrides(TableConfiguration tc,
-            Map<ActualTableName, List<IntrospectedColumn>> columns) {
+                                      Map<ActualTableName, List<IntrospectedColumn>> columns) {
         for (Map.Entry<ActualTableName, List<IntrospectedColumn>> entry : columns
                 .entrySet()) {
             for (IntrospectedColumn introspectedColumn : entry.getValue()) {
@@ -464,7 +456,7 @@ public class DatabaseIntrospector {
 
         if (logger.isDebugEnabled()) {
             String fullTableName = composeFullyQualifiedTableName(localCatalog, localSchema,
-                            localTableName, '.');
+                    localTableName, '.');
             logger.debug(getString("Tracing.1", fullTableName)); //$NON-NLS-1$
         }
 
@@ -614,6 +606,13 @@ public class DatabaseIntrospector {
             calculatePrimaryKey(table, introspectedTable);
 
             enhanceIntrospectedTable(introspectedTable);
+
+            String queryColumns = tc.getQueryColumns();
+            if (queryColumns != null && queryColumns.length() > 0) {
+                String[] split = queryColumns.split(",");
+                List<String> list = Arrays.asList(split);
+                introspectedTable.setQueryColumns(list);
+            }
 
             answer.add(introspectedTable);
         }

@@ -107,7 +107,14 @@ public abstract class IntrospectedTable {
 
     protected Rules rules;
 
+
+    protected List<String> queryColumns = new ArrayList<>();
     protected final List<IntrospectedColumn> primaryKeyColumns = new ArrayList<>();
+
+    /**
+     * 表索引
+     */
+    protected final Map<String, List<IntrospectedColumn>> tableIdxMap = new HashMap<>();
 
     protected final List<IntrospectedColumn> baseColumns = new ArrayList<>();
 
@@ -1096,5 +1103,13 @@ public abstract class IntrospectedTable {
 
     public void setTableType(String tableType) {
         this.tableType = tableType;
+    }
+
+    public List<String> getQueryColumns() {
+        return queryColumns;
+    }
+
+    public void setQueryColumns(List<String> queryColumns) {
+        this.queryColumns = queryColumns;
     }
 }

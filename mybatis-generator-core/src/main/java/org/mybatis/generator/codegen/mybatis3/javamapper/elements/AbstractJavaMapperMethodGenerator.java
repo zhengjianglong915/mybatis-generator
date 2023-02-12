@@ -56,6 +56,26 @@ public abstract class AbstractJavaMapperMethodGenerator extends AbstractGenerato
         return paramName;
     }
 
+    /**
+     * 根据字段，构建参数
+     *
+     * @param introspectedColumn
+     * @return
+     */
+    protected Parameter buildParameter(IntrospectedColumn introspectedColumn) {
+        StringBuilder sb = new StringBuilder();
+        FullyQualifiedJavaType fqjt = introspectedColumn
+                .getFullyQualifiedJavaType();
+        Parameter parameter = new Parameter(fqjt, introspectedColumn.getJavaProperty());
+        // 默认都添加 Param 注解，保持一致
+        sb.setLength(0);
+        sb.append("@Param(\""); //$NON-NLS-1$
+        sb.append(introspectedColumn.getJavaProperty());
+        sb.append("\")"); //$NON-NLS-1$
+        parameter.addAnnotation(sb.toString());
+        return parameter;
+    }
+
     protected static String getResultAnnotation(Interface interfaze, IntrospectedColumn introspectedColumn,
                                                 boolean idColumn, boolean constructorBased) {
         StringBuilder sb = new StringBuilder();

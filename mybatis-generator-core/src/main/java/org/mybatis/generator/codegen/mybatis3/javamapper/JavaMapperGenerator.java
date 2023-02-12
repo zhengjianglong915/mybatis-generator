@@ -75,6 +75,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
 
         // select
         addSelectByPrimaryKeyMethod(interfaze);
+        addSelectByColumnsMethod(interfaze);
 
         // update
         addUpdateByPrimaryKeySelectiveMethod(interfaze);
@@ -112,6 +113,12 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             AbstractJavaMapperMethodGenerator methodGenerator = new SelectByPrimaryKeyMethodGenerator(false);
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
+    }
+
+    // 根据字段查询
+    private void addSelectByColumnsMethod(Interface interfaze) {
+        AbstractJavaMapperMethodGenerator methodGenerator = new SelectByColumnsMethodGenerator();
+        initializeAndExecuteGenerator(methodGenerator, interfaze);
     }
 
     protected void addUpdateByPrimaryKeySelectiveMethod(Interface interfaze) {

@@ -268,7 +268,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
             sb.append(" * @return the value of "); //$NON-NLS-1$
             sb.append(returnType.getShortName());
             method.addJavaDocLine(sb.toString());
-            addJavadocTag(method, false);
         }
 
         method.addJavaDocLine(" */"); //$NON-NLS-1$

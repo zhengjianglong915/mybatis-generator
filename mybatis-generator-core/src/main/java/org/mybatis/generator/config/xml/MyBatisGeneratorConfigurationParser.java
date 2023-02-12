@@ -244,6 +244,11 @@ public class MyBatisGeneratorConfigurationParser {
             tc.setTableName(tableName);
         }
 
+        String queryColumns = attributes.getProperty("queryColumns"); //$NON-NLS-1$
+        if (stringHasValue(tableName)) {
+            tc.setQueryColumns(queryColumns);
+        }
+
         String domainObjectName = attributes.getProperty("domainObjectName"); //$NON-NLS-1$
         if (stringHasValue(domainObjectName)) {
             tc.setDomainObjectName(domainObjectName);

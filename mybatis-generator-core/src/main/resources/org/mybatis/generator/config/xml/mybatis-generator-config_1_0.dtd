@@ -169,6 +169,7 @@
   selectByPrimaryKeyQueryId CDATA #IMPLIED
   selectByExampleQueryId CDATA #IMPLIED
   modelType CDATA #IMPLIED
+  queryColumns CDATA #IMPLIED
   escapeWildcards CDATA #IMPLIED
   delimitIdentifiers CDATA #IMPLIED
   delimitAllColumns CDATA #IMPLIED>
