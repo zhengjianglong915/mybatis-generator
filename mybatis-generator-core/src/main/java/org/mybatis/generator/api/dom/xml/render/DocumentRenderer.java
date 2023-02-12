@@ -48,6 +48,6 @@ public class DocumentRenderer {
     }
 
     private Stream<String> renderRootElement(Document document) {
-        return document.getRootElement().accept(new ElementRenderer());
+        return document.getRootElement().accept(new ElementRenderer(), true);
     }
 }

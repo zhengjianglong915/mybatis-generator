@@ -55,7 +55,8 @@ import org.mybatis.generator.internal.XmlFileMergerJaxp;
  */
 public class MyBatisGenerator {
 
-    private static final ProgressCallback NULL_PROGRESS_CALLBACK = new ProgressCallback() {};
+    private static final ProgressCallback NULL_PROGRESS_CALLBACK = new ProgressCallback() {
+    };
 
     private final Configuration configuration;
 
@@ -79,24 +80,20 @@ public class MyBatisGenerator {
     /**
      * Constructs a MyBatisGenerator object.
      *
-     * @param configuration
-     *            The configuration for this invocation
-     * @param shellCallback
-     *            an instance of a ShellCallback interface. You may specify
-     *            <code>null</code> in which case the DefaultShellCallback will
-     *            be used.
-     * @param warnings
-     *            Any warnings generated during execution will be added to this
-     *            list. Warnings do not affect the running of the tool, but they
-     *            may affect the results. A typical warning is an unsupported
-     *            data type. In that case, the column will be ignored and
-     *            generation will continue. You may specify <code>null</code> if
-     *            you do not want warnings returned.
-     * @throws InvalidConfigurationException
-     *             if the specified configuration is invalid
+     * @param configuration The configuration for this invocation
+     * @param shellCallback an instance of a ShellCallback interface. You may specify
+     *                      <code>null</code> in which case the DefaultShellCallback will
+     *                      be used.
+     * @param warnings      Any warnings generated during execution will be added to this
+     *                      list. Warnings do not affect the running of the tool, but they
+     *                      may affect the results. A typical warning is an unsupported
+     *                      data type. In that case, the column will be ignored and
+     *                      generation will continue. You may specify <code>null</code> if
+     *                      you do not want warnings returned.
+     * @throws InvalidConfigurationException if the specified configuration is invalid
      */
     public MyBatisGenerator(Configuration configuration, ShellCallback shellCallback,
-            List<String> warnings) throws InvalidConfigurationException {
+                            List<String> warnings) throws InvalidConfigurationException {
         super();
         if (configuration == null) {
             throw new IllegalArgumentException(getString("RuntimeError.2")); //$NON-NLS-1$
@@ -124,15 +121,11 @@ public class MyBatisGenerator {
      * method can be canceled through the ProgressCallback interface. This version of the method runs all configured
      * contexts.
      *
-     * @param callback
-     *            an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
-     *            information
-     * @throws SQLException
-     *             the SQL exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     * @throws InterruptedException
-     *             if the method is canceled through the ProgressCallback
+     * @param callback an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
+     *                 information
+     * @throws SQLException         the SQL exception
+     * @throws IOException          Signals that an I/O exception has occurred.
+     * @throws InterruptedException if the method is canceled through the ProgressCallback
      */
     public void generate(ProgressCallback callback) throws SQLException,
             IOException, InterruptedException {
@@ -143,18 +136,13 @@ public class MyBatisGenerator {
      * This is the main method for generating code. This method is long running, but progress can be provided and the
      * method can be canceled through the ProgressCallback interface.
      *
-     * @param callback
-     *            an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
-     *            information
-     * @param contextIds
-     *            a set of Strings containing context ids to run. Only the contexts with an id specified in this list
-     *            will be run. If the list is null or empty, than all contexts are run.
-     * @throws SQLException
-     *             the SQL exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     * @throws InterruptedException
-     *             if the method is canceled through the ProgressCallback
+     * @param callback   an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
+     *                   information
+     * @param contextIds a set of Strings containing context ids to run. Only the contexts with an id specified in this list
+     *                   will be run. If the list is null or empty, than all contexts are run.
+     * @throws SQLException         the SQL exception
+     * @throws IOException          Signals that an I/O exception has occurred.
+     * @throws InterruptedException if the method is canceled through the ProgressCallback
      */
     public void generate(ProgressCallback callback, Set<String> contextIds)
             throws SQLException, IOException, InterruptedException {
@@ -165,26 +153,20 @@ public class MyBatisGenerator {
      * This is the main method for generating code. This method is long running, but progress can be provided and the
      * method can be cancelled through the ProgressCallback interface.
      *
-     * @param callback
-     *            an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
-     *            information
-     * @param contextIds
-     *            a set of Strings containing context ids to run. Only the contexts with an id specified in this list
-     *            will be run. If the list is null or empty, than all contexts are run.
-     * @param fullyQualifiedTableNames
-     *            a set of table names to generate. The elements of the set must be Strings that exactly match what's
-     *            specified in the configuration. For example, if table name = "foo" and schema = "bar", then the fully
-     *            qualified table name is "foo.bar". If the Set is null or empty, then all tables in the configuration
-     *            will be used for code generation.
-     * @throws SQLException
-     *             the SQL exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     * @throws InterruptedException
-     *             if the method is canceled through the ProgressCallback
+     * @param callback                 an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
+     *                                 information
+     * @param contextIds               a set of Strings containing context ids to run. Only the contexts with an id specified in this list
+     *                                 will be run. If the list is null or empty, than all contexts are run.
+     * @param fullyQualifiedTableNames a set of table names to generate. The elements of the set must be Strings that exactly match what's
+     *                                 specified in the configuration. For example, if table name = "foo" and schema = "bar", then the fully
+     *                                 qualified table name is "foo.bar". If the Set is null or empty, then all tables in the configuration
+     *                                 will be used for code generation.
+     * @throws SQLException         the SQL exception
+     * @throws IOException          Signals that an I/O exception has occurred.
+     * @throws InterruptedException if the method is canceled through the ProgressCallback
      */
     public void generate(ProgressCallback callback, Set<String> contextIds,
-            Set<String> fullyQualifiedTableNames) throws SQLException,
+                         Set<String> fullyQualifiedTableNames) throws SQLException,
             IOException, InterruptedException {
         generate(callback, contextIds, fullyQualifiedTableNames, true);
     }
@@ -193,29 +175,22 @@ public class MyBatisGenerator {
      * This is the main method for generating code. This method is long running, but progress can be provided and the
      * method can be cancelled through the ProgressCallback interface.
      *
-     * @param callback
-     *            an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
-     *            information
-     * @param contextIds
-     *            a set of Strings containing context ids to run. Only the contexts with an id specified in this list
-     *            will be run. If the list is null or empty, than all contexts are run.
-     * @param fullyQualifiedTableNames
-     *            a set of table names to generate. The elements of the set must be Strings that exactly match what's
-     *            specified in the configuration. For example, if table name = "foo" and schema = "bar", then the fully
-     *            qualified table name is "foo.bar". If the Set is null or empty, then all tables in the configuration
-     *            will be used for code generation.
-     * @param writeFiles
-     *            if true, then the generated files will be written to disk.  If false,
-     *            then the generator runs but nothing is written
-     * @throws SQLException
-     *             the SQL exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     * @throws InterruptedException
-     *             if the method is canceled through the ProgressCallback
+     * @param callback                 an instance of the ProgressCallback interface, or <code>null</code> if you do not require progress
+     *                                 information
+     * @param contextIds               a set of Strings containing context ids to run. Only the contexts with an id specified in this list
+     *                                 will be run. If the list is null or empty, than all contexts are run.
+     * @param fullyQualifiedTableNames a set of table names to generate. The elements of the set must be Strings that exactly match what's
+     *                                 specified in the configuration. For example, if table name = "foo" and schema = "bar", then the fully
+     *                                 qualified table name is "foo.bar". If the Set is null or empty, then all tables in the configuration
+     *                                 will be used for code generation.
+     * @param writeFiles               if true, then the generated files will be written to disk.  If false,
+     *                                 then the generator runs but nothing is written
+     * @throws SQLException         the SQL exception
+     * @throws IOException          Signals that an I/O exception has occurred.
+     * @throws InterruptedException if the method is canceled through the ProgressCallback
      */
     public void generate(ProgressCallback callback, Set<String> contextIds,
-            Set<String> fullyQualifiedTableNames, boolean writeFiles) throws SQLException,
+                         Set<String> fullyQualifiedTableNames, boolean writeFiles) throws SQLException,
             IOException, InterruptedException {
 
         if (callback == null) {
@@ -314,7 +289,7 @@ public class MyBatisGenerator {
             if (targetFile.exists()) {
                 if (shellCallback.isMergeSupported()) {
                     source = shellCallback.mergeJavaFile(gjf
-                            .getFormattedContent(), targetFile,
+                                    .getFormattedContent(), targetFile,
                             MergeConstants.getOldElementTags(),
                             gjf.getFileEncoding());
                 } else if (shellCallback.isOverwriteEnabled()) {
@@ -383,13 +358,13 @@ public class MyBatisGenerator {
                     .getTargetProject(), gxf.getTargetPackage());
             targetFile = new File(directory, gxf.getFileName());
             if (targetFile.exists()) {
-                if (gxf.isMergeable()) {
-                    source = XmlFileMergerJaxp.getMergedSource(gxf,
-                            targetFile);
-                } else if (shellCallback.isOverwriteEnabled()) {
+                if (shellCallback.isOverwriteEnabled()) {
                     source = gxf.getFormattedContent();
                     warnings.add(getString("Warning.11", //$NON-NLS-1$
                             targetFile.getAbsolutePath()));
+                } else if (gxf.isMergeable()) {
+                    source = XmlFileMergerJaxp.getMergedSource(gxf,
+                            targetFile);
                 } else {
                     source = gxf.getFormattedContent();
                     targetFile = getUniqueFileName(directory, gxf
@@ -413,14 +388,10 @@ public class MyBatisGenerator {
     /**
      * Writes, or overwrites, the contents of the specified file.
      *
-     * @param file
-     *            the file
-     * @param content
-     *            the content
-     * @param fileEncoding
-     *            the file encoding
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @param file         the file
+     * @param content      the content
+     * @param fileEncoding the file encoding
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     private void writeFile(File file, String content, String fileEncoding) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(file, false)) {
@@ -440,10 +411,8 @@ public class MyBatisGenerator {
     /**
      * Gets the unique file name.
      *
-     * @param directory
-     *            the directory
-     * @param fileName
-     *            the file name
+     * @param directory the directory
+     * @param fileName  the file name
      * @return the unique file name
      */
     private File getUniqueFileName(File directory, String fileName) {

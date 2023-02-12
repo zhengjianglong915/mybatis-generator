@@ -76,7 +76,7 @@ public class XmlElement implements VisitableElement {
     }
 
     @Override
-    public <R> R accept(ElementVisitor<R> visitor) {
-        return visitor.visit(this);
+    public <R> R accept(ElementVisitor<R> visitor, boolean isRoot) {
+        return visitor.visit(this, isRoot);
     }
 }

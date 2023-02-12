@@ -35,13 +35,14 @@ public class MyBatis3FormattingUtilities {
 
         sb.append("#{"); //$NON-NLS-1$
         sb.append(introspectedColumn.getJavaProperty(prefix));
-        sb.append(",jdbcType="); //$NON-NLS-1$
-        sb.append(introspectedColumn.getJdbcTypeName());
-
-        if (stringHasValue(introspectedColumn.getTypeHandler())) {
-            sb.append(",typeHandler="); //$NON-NLS-1$
-            sb.append(introspectedColumn.getTypeHandler());
-        }
+        // 参数后面不带数据库类型
+//        sb.append(",jdbcType="); //$NON-NLS-1$
+//        sb.append(introspectedColumn.getJdbcTypeName());
+//
+//        if (stringHasValue(introspectedColumn.getTypeHandler())) {
+//            sb.append(",typeHandler="); //$NON-NLS-1$
+//            sb.append(introspectedColumn.getTypeHandler());
+//        }
 
         sb.append('}');
 

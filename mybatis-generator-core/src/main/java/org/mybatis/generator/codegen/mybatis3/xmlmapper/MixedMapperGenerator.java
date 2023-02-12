@@ -34,15 +34,4 @@ public class MixedMapperGenerator extends XMLMapperGenerator {
         // turn off this element in the mixed mapper
     }
 
-    @Override
-    protected void addUpdateByPrimaryKeyWithBLOBsElement(
-            XmlElement parentElement) {
-        // turn off this element in the mixed mapper
-    }
-
-    @Override
-    protected void addUpdateByPrimaryKeyWithoutBLOBsElement(
-            XmlElement parentElement) {
-        // turn off this element in the mixed mapper
-    }
 }

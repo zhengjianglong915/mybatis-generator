@@ -154,10 +154,6 @@ public abstract class BaseRules implements Rules {
      */
     @Override
     public boolean generateUpdateByPrimaryKeySelective() {
-        if (isModelOnly) {
-            return false;
-        }
-
         if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
             return false;
         }
@@ -165,7 +161,7 @@ public abstract class BaseRules implements Rules {
         return tableConfiguration.isUpdateByPrimaryKeyStatementEnabled()
                 && introspectedTable.hasPrimaryKeyColumns()
                 && (introspectedTable.hasBLOBColumns() || introspectedTable
-                        .hasBaseColumns());
+                .hasBaseColumns());
     }
 
     /**
@@ -178,10 +174,6 @@ public abstract class BaseRules implements Rules {
      */
     @Override
     public boolean generateDeleteByPrimaryKey() {
-        if (isModelOnly) {
-            return false;
-        }
-
         return tableConfiguration.isDeleteByPrimaryKeyStatementEnabled()
                 && introspectedTable.hasPrimaryKeyColumns();
     }
@@ -291,14 +283,10 @@ public abstract class BaseRules implements Rules {
      */
     @Override
     public boolean generateSelectByPrimaryKey() {
-        if (isModelOnly) {
-            return false;
-        }
-
         return tableConfiguration.isSelectByPrimaryKeyStatementEnabled()
                 && introspectedTable.hasPrimaryKeyColumns()
                 && (introspectedTable.hasBaseColumns() || introspectedTable
-                        .hasBLOBColumns());
+                .hasBLOBColumns());
     }
 
     /**
@@ -386,7 +374,7 @@ public abstract class BaseRules implements Rules {
 
         return tableConfiguration.isUpdateByExampleStatementEnabled()
                 && (introspectedTable.hasPrimaryKeyColumns() || introspectedTable
-                        .hasBaseColumns());
+                .hasBaseColumns());
     }
 
     @Override
@@ -422,7 +410,7 @@ public abstract class BaseRules implements Rules {
 
         return introspectedTable.hasBLOBColumns()
                 && (tableConfiguration.isSelectByExampleStatementEnabled() || tableConfiguration
-                        .isSelectByPrimaryKeyStatementEnabled());
+                .isSelectByPrimaryKeyStatementEnabled());
     }
 
     @Override

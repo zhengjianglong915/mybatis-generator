@@ -28,7 +28,7 @@ public class TextElement implements VisitableElement {
     }
 
     @Override
-    public <R> R accept(ElementVisitor<R> visitor) {
+    public <R> R accept(ElementVisitor<R> visitor, boolean isRoot) {
         return visitor.visit(this);
     }
 }

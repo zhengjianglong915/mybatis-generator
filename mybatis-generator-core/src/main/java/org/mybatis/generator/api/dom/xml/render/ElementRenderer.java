@@ -26,6 +26,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.internal.util.CustomCollectors;
 
 public class ElementRenderer implements ElementVisitor<Stream<String>> {
+    private static final String INDENT = "    ";
 
     private final AttributeRenderer attributeRenderer = new AttributeRenderer();
 
@@ -35,12 +36,15 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
     }
 
     @Override
-    public Stream<String> visit(XmlElement element) {
+    public Stream<String> visit(XmlElement element, boolean isRoot) {
+        Stream<String> stream;
         if (element.hasChildren()) {
-            return renderWithChildren(element);
+            stream = renderWithChildren(element, isRoot);
         } else {
-            return renderWithoutChildren(element);
+            stream = renderWithoutChildren(element);
         }
+
+        return stream;
     }
 
     private Stream<String> renderWithoutChildren(XmlElement element) {
@@ -50,8 +54,8 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
                 + " />"); //$NON-NLS-1$
     }
 
-    public Stream<String> renderWithChildren(XmlElement element) {
-        return Stream.of(renderOpen(element), renderChildren(element), renderClose(element))
+    public Stream<String> renderWithChildren(XmlElement element, boolean isRoot) {
+        return Stream.of(renderOpen(element), renderChildren(element, isRoot), renderClose(element))
                 .flatMap(s -> s);
     }
 
@@ -69,18 +73,36 @@ public class ElementRenderer implements ElementVisitor<Stream<String>> {
                 + ">"); //$NON-NLS-1$
     }
 
-    private Stream<String> renderChildren(XmlElement element) {
+    private Stream<String> renderChildren(XmlElement element, boolean isRoot) {
+        if (isRoot) {
+            // 每个元素后面增加换行
+            return element.getElements().stream()
+                    .flatMap(this::renderFirstLevelChild)
+                    .map(this::indent);
+        }
+
         return element.getElements().stream()
                 .flatMap(this::renderChild)
                 .map(this::indent);
     }
 
     private Stream<String> renderChild(VisitableElement child) {
-        return child.accept(this);
+        return child.accept(this, false);
+    }
+
+    /**
+     * 底层的 element 设置换行， 增加可读性
+     *
+     * @param child
+     * @return
+     */
+    private Stream<String> renderFirstLevelChild(VisitableElement child) {
+        Stream<String> accept = child.accept(this, false);
+        return Stream.of(accept, Stream.of(INDENT)).flatMap(s -> s);
     }
 
     private String indent(String s) {
-        return "  " + s; //$NON-NLS-1$
+        return INDENT + s; //$NON-NLS-1$
     }
 
     private Stream<String> renderClose(XmlElement element) {
