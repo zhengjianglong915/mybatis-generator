@@ -106,6 +106,8 @@ public class DefaultCommentGenerator implements CommentGenerator {
         String dateFormatString = properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_DATE_FORMAT);
         if (StringUtility.stringHasValue(dateFormatString)) {
             dateFormat = new SimpleDateFormat(dateFormatString);
+        } else {
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         }
     }
 
