@@ -15,13 +15,21 @@
  */
 package org.mybatis.generator.internal;
 
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
-import java.io.File;
-import java.util.StringTokenizer;
-
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.comments.Comment;
 import org.mybatis.generator.api.ShellCallback;
 import org.mybatis.generator.exception.ShellException;
+
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
+import java.util.StringTokenizer;
+
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 public class DefaultShellCallback implements ShellCallback {
 
@@ -68,5 +76,63 @@ public class DefaultShellCallback implements ShellCallback {
     @Override
     public boolean isOverwriteEnabled() {
         return overwrite;
+    }
+
+
+    @Override
+    public String mergeJavaFile(String newFileSource, File existingFile, String[] javadocTags, String fileEncoding) throws ShellException {
+        try {
+            CompilationUnit existCU = StaticJavaParser.parse(existingFile);
+            CompilationUnit newCU = StaticJavaParser.parse(newFileSource);
+
+            ClassOrInterfaceDeclaration existClass = getClassOrInterfaceDeclaration(existCU);
+            ClassOrInterfaceDeclaration newClass = getClassOrInterfaceDeclaration(newCU);
+
+            if (existClass != null && newClass != null) {
+                // remove generated method
+                removeGeneratedMethod(existClass);
+
+                // add new method
+                for (MethodDeclaration method : newClass.getMethods()) {
+                    existClass.getMembers().add(method);
+                }
+
+                return existCU.toString();
+            } else {
+                return newFileSource;
+            }
+        } catch (Exception e) {
+            throw new ShellException(e);
+        }
+    }
+
+    private void removeGeneratedMethod(ClassOrInterfaceDeclaration existClass) {
+        List<MethodDeclaration> methods = existClass.getMethods();
+        for (MethodDeclaration method : methods) {
+            Optional<Comment> optional = method.getComment();
+            if (optional.isPresent()) {
+                Comment comment = optional.get();
+                String commentContent = comment.asString();
+                if (commentContent.contains("@mbg.generated")) {
+                    // delete method which is auto generated
+                    existClass.remove(method);
+                }
+            }
+        }
+    }
+
+    // get class
+    private ClassOrInterfaceDeclaration getClassOrInterfaceDeclaration(CompilationUnit compilationUnit) {
+        for (TypeDeclaration<?> type : compilationUnit.getTypes()) {
+            if (type instanceof ClassOrInterfaceDeclaration) {
+                return (ClassOrInterfaceDeclaration) type;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isMergeSupported() {
+        return true;
     }
 }

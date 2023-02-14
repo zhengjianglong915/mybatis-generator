@@ -15,7 +15,7 @@ Copyright: 2022
 Created-By: Apache Maven Bundle Plugin 5.1.8
 Export-Package: org.mybatis.generator.maven;version="1.4.2.CW",org.mybat
  is.generator.mybatis_generator_maven_plugin;version="1.4.2.CW"
-Git-Revision: 2b00496e99facd234dd2a86ec9c446468eafd05b
+Git-Revision: 50bc977022cbe5cb42441eacd0f2f07d04313ae1
 Implementation-Title: MyBatis Generator Maven Plugin
 Implementation-Vendor: MyBatis.org
 Implementation-Version: 1.4.2-CW

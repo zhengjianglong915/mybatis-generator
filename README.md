@@ -23,3 +23,4 @@ MBG can generate code in multiple styles (or "runtimes"). MBG can generate code 
 1. xml sql 格式化。 不同 element 支持换行；去除条件里的 jdbcType.
 2. 保留根据主键的操作
 3. Mapper 中的参数名字优化
+4. 支持java 代码合并，新增代码不会被覆盖

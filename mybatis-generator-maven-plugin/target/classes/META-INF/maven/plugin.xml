@@ -214,5 +214,11 @@ Call mvn mybatis-generator:help -Ddetail=true -Dgoal=&lt;goal-name&gt; to displa
       <type>jar</type>
       <version>1.4.2-CW</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.code.javaparser</groupId>
+      <artifactId>javaparser</artifactId>
+      <type>jar</type>
+      <version>1.0.11</version>
+    </dependency>
   </dependencies>
 </plugin>
