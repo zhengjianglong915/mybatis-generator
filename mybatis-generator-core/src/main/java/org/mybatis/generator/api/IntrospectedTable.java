@@ -50,7 +50,6 @@ import org.mybatis.generator.internal.rules.Rules;
  * the actual code generation methods left unimplemented.
  *
  * @author Jeff Butler
- *
  */
 public abstract class IntrospectedTable {
 
@@ -66,16 +65,50 @@ public abstract class IntrospectedTable {
         ATTR_EXAMPLE_TYPE,
         ATTR_MYBATIS3_XML_MAPPER_PACKAGE,
         ATTR_MYBATIS3_XML_MAPPER_FILE_NAME,
-        /** also used as XML Mapper namespace if a Java mapper is generated. */
+        /**
+         * also used as XML Mapper namespace if a Java mapper is generated.
+         */
         ATTR_MYBATIS3_JAVA_MAPPER_TYPE,
-        /** used as XML Mapper namespace if no client is generated. */
+        /**
+         * used as XML Mapper namespace if no client is generated.
+         */
         ATTR_MYBATIS3_FALLBACK_SQL_MAP_NAMESPACE,
         ATTR_FULLY_QUALIFIED_TABLE_NAME_AT_RUNTIME,
         ATTR_ALIASED_FULLY_QUALIFIED_TABLE_NAME_AT_RUNTIME,
         ATTR_COUNT_BY_EXAMPLE_STATEMENT_ID,
         ATTR_DELETE_BY_EXAMPLE_STATEMENT_ID,
         ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID,
-        ATTR_INSERT_STATEMENT_ID,
+        // save
+        ATTR_SAVE_STATEMENT_ID,
+        ATTR_SAVE_ALL_STATEMENT_ID,
+
+        // count
+        ATTR_COUNT_ALL_STATEMENT_ID,
+        ATTR_COUNT_BY_ID_STATEMENT_ID,
+        ATTR_COUNT_BY_UK_STATEMENT_ID,
+        ATTR_COUNT_BY_IDENTITY_STATEMENT_ID,
+        ATTR_COUNT_BY_PARAM_STATEMENT_ID,
+
+        // get
+        ATTR_GET_BY_ID_STATEMENT_ID,
+        ATTR_GET_BY_UK_STATEMENT_ID,
+        ATTR_GET_BY_IDENTITY_STATEMENT_ID,
+
+        // list
+        ATTR_LIST_ALL_STATEMENT_ID,
+        ATTR_LIST_ALL_BY_PARAM_STATEMENT_ID,
+
+        // find
+        ATTR_FIND_ALL_STATEMENT_ID,
+
+        // update
+        ATTR_UPDATE_BY_ID_STATEMENT_ID,
+
+        // remove
+        ATTR_REMOVE_BY_ID_STATEMENT_ID,
+        ATTR_REMOVE_BY_IDS_STATEMENT_ID,
+        ATTR_REMOVE_ALL_STATEMENT_ID,
+
         ATTR_INSERT_SELECTIVE_STATEMENT_ID,
         ATTR_SELECT_ALL_STATEMENT_ID,
         ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID,
@@ -128,7 +161,9 @@ public abstract class IntrospectedTable {
      */
     protected final Map<String, Object> attributes = new HashMap<>();
 
-    /** Internal attributes are used to store commonly accessed items by all code generators. */
+    /**
+     * Internal attributes are used to store commonly accessed items by all code generators.
+     */
     protected final Map<IntrospectedTable.InternalAttribute, String> internalAttributes =
             new EnumMap<>(InternalAttribute.class);
 
@@ -281,7 +316,7 @@ public abstract class IntrospectedTable {
      * Gets the base record type.
      *
      * @return the type for the record (the class that holds non-primary key and non-BLOB fields). Note that the value
-     *         will be calculated regardless of whether the table has these columns or not.
+     * will be calculated regardless of whether the table has these columns or not.
      */
     public String getBaseRecordType() {
         return internalAttributes.get(InternalAttribute.ATTR_BASE_RECORD_TYPE);
@@ -304,7 +339,7 @@ public abstract class IntrospectedTable {
      * Gets the record with blo bs type.
      *
      * @return the type for the record with BLOBs class. Note that the value will be calculated regardless of whether
-     *         the table has BLOB columns or not.
+     * the table has BLOB columns or not.
      */
     public String getRecordWithBLOBsType() {
         return internalAttributes
@@ -416,21 +451,39 @@ public abstract class IntrospectedTable {
         setSqlMapFullyQualifiedRuntimeTableName(calculateSqlMapFullyQualifiedRuntimeTableName());
         setSqlMapAliasedFullyQualifiedRuntimeTableName(calculateSqlMapAliasedFullyQualifiedRuntimeTableName());
 
-        setCountByExampleStatementId("countByExample"); //$NON-NLS-1$
-        setDeleteByExampleStatementId("deleteByExample"); //$NON-NLS-1$
-        setDeleteByPrimaryKeyStatementId("deleteByPrimaryKey"); //$NON-NLS-1$
-        setInsertStatementId("insert"); //$NON-NLS-1$
-        setInsertSelectiveStatementId("insertSelective"); //$NON-NLS-1$
-        setSelectAllStatementId("selectAll"); //$NON-NLS-1$
-        setSelectByExampleStatementId("selectByExample"); //$NON-NLS-1$
-        setSelectByExampleWithBLOBsStatementId("selectByExampleWithBLOBs"); //$NON-NLS-1$
-        setSelectByPrimaryKeyStatementId("selectByPrimaryKey"); //$NON-NLS-1$
-        setUpdateByExampleStatementId("updateByExample"); //$NON-NLS-1$
-        setUpdateByExampleSelectiveStatementId("updateByExampleSelective"); //$NON-NLS-1$
-        setUpdateByExampleWithBLOBsStatementId("updateByExampleWithBLOBs"); //$NON-NLS-1$
-        setUpdateByPrimaryKeyStatementId("updateByPrimaryKey"); //$NON-NLS-1$
-        setUpdateByPrimaryKeySelectiveStatementId("updateByPrimaryKeySelective"); //$NON-NLS-1$
-        setUpdateByPrimaryKeyWithBLOBsStatementId("updateByPrimaryKeyWithBLOBs"); //$NON-NLS-1$
+        // save
+        setSaveStatementId("save"); //$NON-NLS-1$
+        setSaveAllStatementId("saveAll"); //$NON-NLS-1$
+
+        // count
+        setCountAllStatementId("countAll"); //$NON-NLS-1$
+        setCountByIdStatementId("countById"); //$NON-NLS-1$
+        setCountByUKeyStatementId("countByUKey"); //$NON-NLS-1$
+        setCountByIdentityStatementId("countByIdentity");
+        setCountByParamStatementId("countByParam");
+
+        // get
+        setGetByIdStatementId("getById");
+        setGetByUKeyStatementId("getByUKey");
+        setGetByIdentityStatementId("getByIdentity");
+
+        // list
+        setListAllStatementId("listAll");
+        setListAllByParamStatementId("listAllByParam");
+
+        // find
+        setFindAllStatementId("findAll");
+
+        // update
+        setUpdateByIdStatementId("updateById");
+
+        // delete
+        setRemoveByIdStatementId("removeById");
+        setRemoveByIdsStatementId("removeByIds");
+        setRemoveAllStatementId("removeAll");
+
+
+        // base
         setBaseResultMapId("BaseResultMap"); //$NON-NLS-1$
         setResultMapWithBLOBsId("ResultMapWithBLOBs"); //$NON-NLS-1$
         setExampleWhereClauseId("Example_Where_Clause"); //$NON-NLS-1$
@@ -467,87 +520,90 @@ public abstract class IntrospectedTable {
         internalAttributes.put(InternalAttribute.ATTR_BASE_RESULT_MAP_ID, s);
     }
 
-    public void setUpdateByPrimaryKeyWithBLOBsStatementId(String s) {
+
+    public void setSaveStatementId(String s) {
+        internalAttributes.put(InternalAttribute.ATTR_SAVE_STATEMENT_ID, s);
+    }
+
+    public void setSaveAllStatementId(String s) {
+        internalAttributes.put(InternalAttribute.ATTR_SAVE_ALL_STATEMENT_ID, s);
+    }
+
+    public void setCountAllStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_UPDATE_BY_PRIMARY_KEY_WITH_BLOBS_STATEMENT_ID,
-                s);
+                InternalAttribute.ATTR_COUNT_ALL_STATEMENT_ID, s);
     }
 
-    public void setUpdateByPrimaryKeySelectiveStatementId(String s) {
-        internalAttributes
-                .put(
-                        InternalAttribute.ATTR_UPDATE_BY_PRIMARY_KEY_SELECTIVE_STATEMENT_ID,
-                        s);
-    }
-
-    public void setUpdateByPrimaryKeyStatementId(String s) {
+    public void setCountByIdStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_UPDATE_BY_PRIMARY_KEY_STATEMENT_ID, s);
+                InternalAttribute.ATTR_COUNT_BY_ID_STATEMENT_ID, s);
     }
 
-    public void setUpdateByExampleWithBLOBsStatementId(String s) {
+    public void setCountByUKeyStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_UPDATE_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID,
-                s);
+                InternalAttribute.ATTR_COUNT_BY_UK_STATEMENT_ID, s);
     }
 
-    public void setUpdateByExampleSelectiveStatementId(String s) {
-        internalAttributes
-                .put(
-                        InternalAttribute.ATTR_UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID,
-                        s);
-    }
-
-    public void setUpdateByExampleStatementId(String s) {
+    public void setCountByIdentityStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_UPDATE_BY_EXAMPLE_STATEMENT_ID, s);
+                InternalAttribute.ATTR_COUNT_BY_IDENTITY_STATEMENT_ID, s);
     }
 
-    public void setSelectByPrimaryKeyStatementId(String s) {
+    public void setCountByParamStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_SELECT_BY_PRIMARY_KEY_STATEMENT_ID, s);
+                InternalAttribute.ATTR_COUNT_BY_PARAM_STATEMENT_ID, s);
     }
 
-    public void setSelectByExampleWithBLOBsStatementId(String s) {
-        internalAttributes
-                .put(
-                        InternalAttribute.ATTR_SELECT_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID,
-                        s);
-    }
-
-    public void setSelectAllStatementId(String s) {
+    public void setGetByIdStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_SELECT_ALL_STATEMENT_ID, s);
+                InternalAttribute.ATTR_GET_BY_ID_STATEMENT_ID, s);
     }
 
-    public void setSelectByExampleStatementId(String s) {
+    public void setGetByUKeyStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID, s);
+                InternalAttribute.ATTR_GET_BY_UK_STATEMENT_ID, s);
     }
 
-    public void setInsertSelectiveStatementId(String s) {
+    public void setGetByIdentityStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_INSERT_SELECTIVE_STATEMENT_ID, s);
+                InternalAttribute.ATTR_GET_BY_IDENTITY_STATEMENT_ID, s);
     }
 
-    public void setInsertStatementId(String s) {
-        internalAttributes.put(InternalAttribute.ATTR_INSERT_STATEMENT_ID, s);
-    }
-
-    public void setDeleteByPrimaryKeyStatementId(String s) {
+    public void setListAllStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID, s);
+                InternalAttribute.ATTR_LIST_ALL_STATEMENT_ID, s);
     }
 
-    public void setDeleteByExampleStatementId(String s) {
+    public void setListAllByParamStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_DELETE_BY_EXAMPLE_STATEMENT_ID, s);
+                InternalAttribute.ATTR_LIST_ALL_BY_PARAM_STATEMENT_ID, s);
     }
 
-    public void setCountByExampleStatementId(String s) {
+    public void setFindAllStatementId(String s) {
         internalAttributes.put(
-                InternalAttribute.ATTR_COUNT_BY_EXAMPLE_STATEMENT_ID, s);
+                InternalAttribute.ATTR_FIND_ALL_STATEMENT_ID, s);
     }
+
+    public void setUpdateByIdStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_UPDATE_BY_ID_STATEMENT_ID, s);
+    }
+
+    public void setRemoveByIdStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_REMOVE_BY_ID_STATEMENT_ID, s);
+    }
+
+    public void setRemoveByIdsStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_REMOVE_BY_IDS_STATEMENT_ID, s);
+    }
+
+    public void setRemoveAllStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_REMOVE_ALL_STATEMENT_ID, s);
+    }
+
 
     public String getBlobColumnListId() {
         return internalAttributes
@@ -636,7 +692,7 @@ public abstract class IntrospectedTable {
 
     public String getInsertStatementId() {
         return internalAttributes
-                .get(InternalAttribute.ATTR_INSERT_STATEMENT_ID);
+                .get(InternalAttribute.ATTR_SAVE_STATEMENT_ID);
     }
 
     public String getDeleteByPrimaryKeyStatementId() {
@@ -890,13 +946,11 @@ public abstract class IntrospectedTable {
      * <p>This method is called after all the setX methods, but before getNumberOfSubtasks(), getGeneratedJavaFiles, and
      * getGeneratedXmlFiles.
      *
-     * @param warnings
-     *            the warnings
-     * @param progressCallback
-     *            the progress callback
+     * @param warnings         the warnings
+     * @param progressCallback the progress callback
      */
     public abstract void calculateGenerators(List<String> warnings,
-            ProgressCallback progressCallback);
+                                             ProgressCallback progressCallback);
 
     /**
      * This method should return a list of generated Java files related to this
@@ -935,8 +989,7 @@ public abstract class IntrospectedTable {
     /**
      * This method exists to give plugins the opportunity to replace the calculated rules if necessary.
      *
-     * @param rules
-     *            the new rules
+     * @param rules the new rules
      */
     public void setRules(Rules rules) {
         this.rules = rules;
